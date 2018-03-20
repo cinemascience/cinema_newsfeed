@@ -1,3 +1,45 @@
-#article img {
-    hieght: 150px;
+div.container {
+    width: 100%;
+    border: 1px solid gray;
+}
+
+header, footer {
+    padding: 1em;
+    color: white;
+    background-color: black;
+    clear: left;
+    text-align: center;
+}
+
+nav {
+    float: left;
+    max-width: 160px;
+    margin: 0;
+    padding: 1em;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+   
+nav ul a {
+    text-decoration: none;
+}
+
+article {
+    margin-left: 170px;
+    margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: 1px solid grey;
+    padding: 1em;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+article img {
+    height: 100px;
+    border-radius:5px;
+    box-shadow: 4px 4px 5px 0px RGBA(50,50,50,0.75);
 }
