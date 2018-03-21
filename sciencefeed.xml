@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="sciencefeed.xsl"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>Cinema Isosurface Feed</title>
+    <link>http://www.sciencemag.org/rss/news_current.xml</link>
+    <description>An algorithm that identifies changes in isosurface entropy</description>
+    <pubDate>Wed, 21 Mar 2018 11:50:46</pubDate>
+    
+    <item>
+      <title>Isosurface 1</title>
+      <link>file:///Users/dhr/LANL/git/github/cinemascience/cinema_newsfeed/cinema.html?databases=feedapp/nyx_01.json</link>
+      <pubDate>Wed, 21 Mar 2018 10:30:00 -0400</pubDate>
+      <guid isPermaLink="true"></guid>
+      <description><![CDATA[New finding could jump-start efforts to produce fuels with microbes]]></description>
+      <media:credit role="author">Divya Banehs</media:credit>
+      <media:category>image algorithm</media:category>
+      <media:thumbnail url="data/change/iso1.png" /> 
+      <media:storyboard>
+            <image>data/nyx_01.cdb/10.45.0.1.png</image>
+            <image>data/nyx_01.cdb/60.45.0.1.png</image>
+            <image>data/nyx_01.cdb/100.45.0.1.png</image>
+            <image>data/nyx_01.cdb/210.45.0.1.png</image>
+            <image>data/nyx_01.cdb/360.45.0.1.png</image>
+            <image>data/nyx_01.cdb/700.45.0.1.png</image>
+            <image>data/nyx_01.cdb/1750.45.0.1.png</image>
+      </media:storyboard>
+    </item>
+
+    <item>
+      <title>Isosurface 2</title>
+      <link>file:///Users/dhr/LANL/git/github/cinemascience/cinema_newsfeed/cinema.html?databases=feedapp/nyx_02.json</link>
+      <pubDate>Wed, 21 Mar 2018 10:30:00 -0400</pubDate>
+      <guid isPermaLink="true"></guid>
+      <description>Isosurface value 37.0</description>
+      <media:credit role="author">Divya Banehs</media:credit>
+      <media:category>image algorithm</media:category>
+      <media:thumbnail url="data/change/iso2.png" /> 
+      <media:storyboard>
+            <image>data/nyx_02.cdb/10.45.0.2.png</image>
+            <image>data/nyx_02.cdb/90.45.0.2.png</image>
+            <image>data/nyx_02.cdb/180.45.0.2.png</image>
+            <image>data/nyx_02.cdb/800.45.0.2.png</image>
+            <image>data/nyx_02.cdb/1750.45.0.2.png</image>
+      </media:storyboard>
+    </item>
+
+    <item>
+      <title>Isosurface 3</title>
+      <link>file:///Users/dhr/LANL/git/github/cinemascience/cinema_newsfeed/cinema.html?databases=feedapp/nyx_03.json</link>
+      <pubDate>Wed, 21 Mar 2018 10:30:00 -0400</pubDate>
+      <guid isPermaLink="true"></guid>
+      <description>Isosurface value 37.0</description>
+      <media:credit role="author">Divya Banehs</media:credit>
+      <media:category>image algorithm</media:category>
+      <media:thumbnail url="data/change/iso3.png" /> 
+      <media:storyboard>
+            <image>data/nyx_03.cdb/10.45.0.2.png</image>
+            <image>data/nyx_03.cdb/100.45.0.2.png</image>
+            <image>data/nyx_03.cdb/250.45.0.2.png</image>
+            <image>data/nyx_03.cdb/510.45.0.2.png</image>
+            <image>data/nyx_03.cdb/910.45.0.2.png</image>
+            <image>data/nyx_03.cdb/1250.45.0.2.png</image>
+            <image>data/nyx_03.cdb/1750.45.0.2.png</image>
+      </media:storyboard>
+    </item>
+
+    <item>
+      <title>Isosurface 4</title>
+      <link>file:///Users/dhr/LANL/git/github/cinemascience/cinema_newsfeed/cinema.html?databases=feedapp/nyx_04.json</link>
+      <pubDate>Wed, 21 Mar 2018 10:30:00 -0400</pubDate>
+      <guid isPermaLink="true"></guid>
+      <description>Isosurface value 37.0</description>
+      <media:credit role="author">Divya Banehs</media:credit>
+      <media:category>image algorithm</media:category>
+      <media:thumbnail url="data/change/iso4.png" /> 
+      <media:storyboard>
+            <image>data/nyx_04.cdb/10.45.0.2.png</image>
+            <image>data/nyx_04.cdb/100.45.0.2.png</image>
+            <image>data/nyx_04.cdb/300.45.0.2.png</image>
+            <image>data/nyx_04.cdb/510.45.0.2.png</image>
+            <image>data/nyx_04.cdb/910.45.0.2.png</image>
+            <image>data/nyx_04.cdb/1750.45.0.2.png</image>
+      </media:storyboard>
+    </item>
+
+    <item>
+      <title>Isosurface 5</title>
+      <link>file:///Users/dhr/LANL/git/github/cinemascience/cinema_newsfeed/cinema.html?databases=feedapp/nyx_05.json</link>
+      <pubDate>Wed, 21 Mar 2018 10:30:00 -0400</pubDate>
+      <guid isPermaLink="true"></guid>
+      <description>Isosurface value 37.0</description>
+      <media:credit role="author">Divya Banehs</media:credit>
+      <media:category>image algorithm</media:category>
+      <media:thumbnail url="data/change/iso5.png" /> 
+      <media:storyboard>
+            <image>data/nyx_05.cdb/10.45.0.2.png</image>
+            <image>data/nyx_05.cdb/90.45.0.2.png</image>
+            <image>data/nyx_05.cdb/120.45.0.2.png</image>
+            <image>data/nyx_05.cdb/210.45.0.2.png</image>
+            <image>data/nyx_05.cdb/360.45.0.2.png</image>
+            <image>data/nyx_05.cdb/1750.45.0.2.png</image>
+      </media:storyboard>
+    </item>
+
+  </channel>
+</rss>
