@@ -42,19 +42,21 @@
 
 <xsl:apply-templates select="/rss/channel/item"/>
 
+<div id="modalPanel" class="modal">
+    <span class="close">x</span>
+    <img class="modal-content" id="modalContent"></img>
+    <div id="modalCaption"></div>
+</div>
+
 <footer>Copyright (c) 2018 Los Alamos National Laboratory</footer>
 
 </div>
 
 <script>
-$(".mimg").click(function() {
-    var modal = document.getElementById('modalPanel');
-    var img = document.getElementById('myImg');
-    var modalImg = document.getElementById("img01");
-    var captionText = document.getElementById("caption");
-    modal.style.display = "block";
-    modalImg.src = this.src;
-    captionText.innerHTML = this.alt;
+<xsl:text>
+
+$(".mimg").onclick(function() {
+    alert("message");
 });
 
 <!-- Get the <span> element that closes the modal -->
@@ -65,6 +67,8 @@ span.onclick = function() {
     var modal = document.getElementById('modalPanel');
     modal.style.display = "none";
 }
+
+</xsl:text>
 </script>
 
 </body>
@@ -83,16 +87,11 @@ span.onclick = function() {
 <table>
 <tr>
 <td>
-    <a>
-        <xsl:attribute name="href">
-            <xsl:value-of select="link"/>
-        </xsl:attribute>
-        <img>
-        <xsl:attribute name="src">
-            <xsl:value-of select="media:thumbnail/@url"/>
-        </xsl:attribute>
-        </img>
-    </a>
+    <img class="mimg">
+    <xsl:attribute name="src">
+        <xsl:value-of select="media:thumbnail/@url"/>
+    </xsl:attribute>
+    </img>
 </td>
     <xsl:for-each select="media:storyboard/image">
     <td>

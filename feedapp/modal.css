@@ -1,10 +1,10 @@
-#myImg {
+.mimg {
     border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;
 }
 
-#myImg:hover {opacity: 0.7;}
+.mimg:hover {opacity: 0.7;}
 
 /* The Modal (background) */
 .modal {
@@ -30,7 +30,7 @@
 }
 
 /* Caption of Modal Image */
-#caption {
+#modalCaption {
     margin: auto;
     display: block;
     width: 80%;
@@ -42,7 +42,7 @@
 }
 
 /* Add Animation */
-.modal-content, #caption {    
+.modal-content, #modalCaption {    
     -webkit-animation-name: zoom;
     -webkit-animation-duration: 0.6s;
     animation-name: zoom;
