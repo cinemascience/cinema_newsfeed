@@ -1,4 +1,4 @@
-# Cinema Spec-D Parallel Coordinates Viewer
+# Cinema Newsfeed Viewer 
 
 ## Version 0.5
 ### Author: David H. Rogers (dhr@lanl.gov) 
