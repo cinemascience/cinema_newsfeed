@@ -14,8 +14,8 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="feedapp/feed.css"></link>
-<link rel="stylesheet" type="text/css" href="feedapp/modal.css"></link>
+<link rel="stylesheet" type="text/css" href="cinema/newsfeed/0.5/feed.css"></link>
+<link rel="stylesheet" type="text/css" href="cinema/newsfeed/0.5/modal.css"></link>
 
 <script 
     src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
