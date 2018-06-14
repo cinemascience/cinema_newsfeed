@@ -1,0 +1,251 @@
+#!/usr/bin/env python
+
+import argparse
+import sqlite3
+import os
+import json
+import textwrap
+import glob
+from cinema_lib.spec import d as cinema
+from time import gmtime, strftime
+
+
+# ---------------------------------------------------------------------------
+# globals
+# ---------------------------------------------------------------------------
+
+CCD_ALL_RESULTS = dict() 
+CCD_RESULT_PAIRS = []
+CNF_dir = "cinema/newsfeed"
+CNF_version = "0.5"
+
+# ---------------------------------------------------------------------------
+#
+# functions 
+#
+# ---------------------------------------------------------------------------
+
+# return a valid image column name. This gets around a problem in the
+# implementation of the cinema command line, in which FILE is renamed
+# to FILE0 
+def image_check(image_name):
+    if image_name == "FILE":
+        return "FILE0"
+    else:
+        return image_name
+
+# write a database file as expected by Cinema:Explorer
+def write_databases_file(path, name, database):
+    if os.path.dirname(path):
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w") as output:
+        output.write("[\n{\n")
+        output.write("    \"name\": \"{}\",\n".format(name))
+        output.write("    \"directory\": \"{}\"\n".format(database))
+        output.write("}\n]\n")
+
+# ---------------------------------------------------------------------------
+#
+# modal image capability, included in final html 
+#
+# ---------------------------------------------------------------------------
+MODE_STRING = """
+<div id="modalPanel" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01">
+    <div id="caption"></div>
+</div>
+
+
+</div>
+
+<script>
+$(".mimg").click(function() {
+    var modal = document.getElementById('modalPanel');
+    var img = document.getElementById('myImg');
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    captionText.innerHTML = this.alt;
+});
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+    var modal = document.getElementById('modalPanel');
+    modal.style.display = "none";
+}
+</script>
+"""
+
+# ---------------------------------------------------------------------------
+#
+# get initial settings from settings file, if there is one
+#
+# ---------------------------------------------------------------------------
+conf_parser = argparse.ArgumentParser(
+    # Turn off help, so we print all options in response to -h
+    add_help=False
+    )
+
+args, remaining_argv = conf_parser.parse_known_args()
+
+# ---------------------------------------------------------------------------
+#
+# command line options
+#
+# ---------------------------------------------------------------------------
+# Don't surpress add_help here so it will handle -h
+parser = argparse.ArgumentParser(
+    # Don't mess with format of description
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    # Inherit options from config_parser
+    parents=[conf_parser],
+    # print script description with -h/--help
+    epilog=textwrap.dedent('''\
+        examples:
+        
+          assist --input test.cdb --output index.html 
+            process test.cdb and write output to index.html 
+
+            ''')
+)
+# parser.set_defaults(**defaults)
+parser.add_argument( "-i", "--input", required=True,
+    help="define input for this operation")
+parser.add_argument( "-c", "--ccddir", required=True,
+    help="define directory for the CCD files for this database")
+parser.add_argument( "-d", "--databasefile", required=True,
+    help="define database file to be output for any linked cinema explorer views")
+parser.add_argument( "-o", "--output", required=True,
+    help="define output html file")
+parser.add_argument( "-t", "--thumbnail", required=True,
+    help="define column name to be used as thumbnail asset")
+
+args = parser.parse_args(remaining_argv)
+
+
+# process the databas argument
+DB_full = args.input
+while DB_full.endswith('/'):
+    DB_full = DB_full[:-1]
+(DB_path, DB_dirname) = os.path.split(DB_full)
+if not DB_path:
+    DB_path = "./"
+DB_name = DB_dirname
+
+if DB_dirname.endswith('.cdb'):
+    DB_name = DB_name[:-4]
+else:
+    print("ERROR: database name must end in .cdb")
+    exit(0)
+
+# create a sqlite database from the cinema database
+cdb = cinema.get_sqlite3( DB_full )
+cur = cdb.cursor()
+
+# get things started 
+cur.execute("PRAGMA table_info({})".format(DB_name))
+
+# find all CCD information files
+globstring = os.path.join(DB_full, args.ccddir, "CCD_*.json")
+
+# write the databases file
+dbjson = args.databasefile 
+write_databases_file(dbjson, os.path.basename(DB_full), DB_full)
+
+# open the output file and write the header
+of = open(args.output, "w")
+of.write("<!DOCTYPE html>\n")
+of.write("<html>\n")
+of.write("<head>\n")
+    # link to newsfeed
+of.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"{}/{}/feed.css\"></link>\n".format(CNF_dir, CNF_version))
+of.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"{}/{}/modal.css\"></link>\n".format(CNF_dir, CNF_version))
+    # link to jquery
+of.write("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>\n")
+of.write("</head>\n")
+of.write("<body>\n")
+of.write("<div class=\"container\">\n")
+of.write("<header>\n")
+of.write("<h1>Cinema:Newsfeed</h1>\n")
+of.write("<p>Change Detection</p>\n")
+of.write("<p>{}</p>\n".format(strftime("Page created: %Y %d %B %H:%M:%S (%A)", gmtime())))
+of.write("</header>\n")
+
+# loop over all the CCD files and create an entry for each
+curccd = 1;
+ccdfiles = glob.glob(globstring)
+for ccd in ccdfiles:
+    of.write("<article>\n")
+    of.write("<table>\n")
+# check for existence of image and json files
+    of.write("<tr>\n")
+
+    jsonfile  = os.path.splitext(ccd)[0] + ".json"
+
+    # TODO check on this opening
+    jsondata = json.load(open(jsonfile))
+    imagefile = os.path.join( DB_full, "CCD", jsondata["image"] )
+    changecolumn = jsondata["cinema"]["changecolumn"]
+    filecolumn   = image_check(args.thumbnail)
+    param_00 = jsondata["parameters"][0] 
+    param_01 = jsondata["parameters"][1] 
+
+    query = "SELECT {},{}, {} FROM {} WHERE {}>0".format(filecolumn, param_00, param_01, DB_name, changecolumn)
+    cur.execute(query) 
+    numrows = len(cur.fetchall())
+        # assumes that cinema_explorer.html is located in this directory ...
+    of.write("<a href=\"cinema_explorer.html?databases={}\">{}</a>\n".format(dbjson, jsondata["title"]))
+    if not os.path.isfile( imagefile ):
+        print("can't find image file: " + imagefile)
+    if not os.path.isfile( jsonfile ):
+        print("can't find json  file: " + jsonfile)
+
+    # create the html
+    of.write("<td>\n")
+    of.write("  <table>\n")
+    of.write("    <tr><td>\n")
+    of.write("     <img src=\"{}\" class=\"mimg\">\n".format(imagefile))
+    of.write("    </tr></td>\n")
+    of.write("    <tr><td><small>Change detection graph of <b>{}</b> vs. <b>{}</b>, showing <b>{}</b> inflection points.</small></td></tr>\n".format(param_01, param_00, numrows ))
+    of.write("  </table>\n")
+    of.write("</td>\n")
+
+    # create a space
+    of.write("<td>&nbsp&nbsp&nbsp</td>\n") 
+    # retain the information in a dictionary
+    # row of images
+    xstring    = "x{}".format(curccd)
+    datastring = "data{}".format(curccd)
+    CCD_ALL_RESULTS[xstring] = [] 
+    CCD_ALL_RESULTS[datastring] = [] 
+    CCD_RESULT_PAIRS.append( [datastring, xstring] )
+    for row in cur.execute(query): 
+        of.write("<td>\n")
+        of.write("  <table>\n")
+        of.write("    <tr><td>\n")
+            # image
+        of.write("     <img src=\"{}\" class=\"mimg\"></tr></td>\n".format(os.path.join(DB_full, row[0])))
+            # label
+        of.write("    <tr><td align=\"center\"><small>{}={}</small></td></tr>\n".format(param_00, row[1]))
+        of.write("  </table>\n")
+        of.write("</td>\n")
+        CCD_ALL_RESULTS[xstring].append(row[1])
+        CCD_ALL_RESULTS[datastring].append(row[2])
+
+    of.write("</tr>\n")
+    of.write("</table>\n")
+    of.write("</article>\n")
+    curccd += 1
+
+of.write("<footer>Copyright &copy; Los Alamos National Laboratory</footer>\n")
+
+of.write(MODE_STRING)
+
+of.write("</body>\n")
+of.write("</html>\n")
+of.close()
