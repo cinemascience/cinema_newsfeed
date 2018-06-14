@@ -1,0 +1,33 @@
+!#/bin/bash
+
+# remember: copy data into the current directory
+
+echo "cloning repos ..."
+echo " "
+git clone git@github.com:cinemascience/cinema_explorer.git
+git clone git@github.com:cinemascience/cinema_newsfeed.git
+
+echo "installing cinema explorer ..."
+echo " "
+cp -rf cinema_explorer/cinema .
+cp cinema_explorer/cinema_explorer.html .
+
+echo "installing cinema newsfeed ..."
+echo " "
+cp -rf cinema_newsfeed/cinema .
+cp cinema_newsfeed/generate/newsfeed_generate_from_ccd .
+
+echo "cleaning up ..."
+echo " "
+rm -rf cinema_explorer
+rm -rf cinema_newsfeed
+
+echo "generating newsfeed"
+echo " "
+
+#
+# edit here to loop over your datasets, and generate the correct data 
+#
+./newsfeed_generate_from_ccd --input data.cdb/ --thumbnail FILE --databasefile dbs/datbase.json --ccddir CCD --output newsfeed_01.html
+
+echo "complete"
