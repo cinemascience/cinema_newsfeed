@@ -195,9 +195,9 @@ for ccd in ccdfiles:
     param_00 = jsondata["parameters"][0] 
     param_01 = jsondata["parameters"][1] 
 
-    # query = "SELECT \"{}\",\"{}\", \"{}\" FROM {} WHERE {}>0".format(filecolumn, param_00, param_01, DB_name, changecolumn)
+    query = "SELECT \"{}\",\"{}\", \"{}\" FROM {} WHERE {}>0".format(filecolumn, param_00, param_01, DB_name, changecolumn)
     # query = "SELECT {},{}, {} FROM {} WHERE {}>0".format(filecolumn, param_00, param_01, DB_name, changecolumn)
-    query = "SELECT [{}],[{}], [{}] FROM {} WHERE {}>0".format(filecolumn, param_00, param_01, DB_name, changecolumn)
+    # query = "SELECT [{}],[{}], [{}] FROM {} WHERE {}>0".format(filecolumn, param_00, param_01, DB_name, changecolumn)
     cur.execute(query) 
     numrows = len(cur.fetchall())
         # assumes that cinema_explorer.html is located in this directory ...
