@@ -3,6 +3,7 @@
 import argparse
 import sqlite3
 import os
+import platform
 import json
 import textwrap
 import glob
@@ -29,7 +30,9 @@ CNF_version = "0.5"
 # implementation of the cinema command line, in which FILE is renamed
 # to FILE0 
 def image_check(image_name):
-    if image_name == "FILE":
+    if platform.system() == "Linux":
+        return image_name
+    elif image_name == "FILE":
         return "FILE0"
     else:
         return image_name
