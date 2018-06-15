@@ -149,6 +149,9 @@ cur = cdb.cursor()
 
 # get things started 
 cur.execute("PRAGMA table_info({})".format(DB_name))
+cur.execute("SELECT * from {} LIMIT 0".format(DB_name))
+for d in cur.description:
+    print(d[0])
 
 # find all CCD information files
 globstring = os.path.join(DB_full, args.ccddir, "CCD_*.json")
